@@ -1,0 +1,7 @@
+{
+  "name": "pmrboxplotapp",
+  "private": true,
+  "dependencies": {
+    "plotly": "~1.2.0"
+  }
+}
