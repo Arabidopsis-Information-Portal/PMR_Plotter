@@ -685,6 +685,8 @@ window.HTMLWidgets.evaluateStringMember = function(o, member) {
         instance.plotly = true;
       } else {
         Plotly.newPlot(el.id, x.data, x.layout);
+        /* Next line is crude attempt to fix tiny initial size on Araport */
+        Plotly.relayout(el.id, {width: "500px", height: "500px"});
       }
     }
 
