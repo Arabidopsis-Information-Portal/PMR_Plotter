@@ -2,6 +2,6 @@
   "name": "pmrboxplotapp",
   "private": true,
   "dependencies": {
-    "plotly": "~1.2.0"
+    "plotlyjs": "plotly#~0.0.2"
   }
 }
