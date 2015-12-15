@@ -21,7 +21,7 @@
     }, renderViz, showErrorMessage);
     console.log('data fetch invoked, waiting for response');
 
-    var renderViz = function (jsondata) {
+    function renderViz (jsondata) {
       console.log('data fetched, start renderViz');
       window.HTMLWidgets.staticRender();
       console.log('finish renderViz');
