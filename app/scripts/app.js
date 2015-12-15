@@ -11,7 +11,11 @@
 
     function renderViz (jsondata) {
       console.log('data fetched, start renderViz');
-      window.HTMLWidgets.staticRender();
+      // Adama adds metadata like response time and HTTP status code.
+      // Here, strip away the metadata added by Adama.
+      // Another way to do this is with the 'naked data' option in Adama.
+      var nakedData = jsondata.obj.result[0];
+      window.HTMLWidgets.staticRender(nakedData);
       console.log('finish renderViz');
     };
 
@@ -21,9 +25,6 @@
 
     var fake={locus: "AT1G65480"};
     console.log('launch asynchronous data fetch');
-    //        'namespace': 'araport',
-    //        'service': 'gene_ontology_by_locus_v0.2',
-    //        'queryParams': fake
     Agave.api.adama.search({
         'namespace': 'pmr',
         'service': 'pmr_demo_api_v0.1',
@@ -505,7 +506,7 @@ function scheduleStaticRender() {
 
 // Render static widgets after the document finishes loading
 // Statically render all elements that are of this widget's class
-window.HTMLWidgets.staticRender = function() {
+window.HTMLWidgets.staticRender = function(drawingData) {
   var bindings = window.HTMLWidgets.widgets || [];
 
   forEach(bindings, function(binding) {
@@ -571,11 +572,11 @@ window.HTMLWidgets.staticRender = function() {
           on(document, 'slideleave', resizeHandler);
         }
       }
-
-      var scriptData = document.querySelector('script[data-for="' + el.id + '"][type="application/json"]');
-
-      if (scriptData) {
-        var data = JSON.parse(scriptData.textContent || scriptData.text);
+      // Originally, this program yanked the data from the HTML.
+      // var scriptData = document.querySelector('script[data-for="' + el.id + '"][type="application/json"]');
+      // var data = JSON.parse(drawingData.textContent || drawingData.text);
+      if (drawingData) {
+        var data = drawingData;
         // Resolve strings marked as javascript literals to objects
         if (!(data.evals instanceof Array)) {data.evals = [data.evals];}
         for (var k = 0; data.evals && k < data.evals.length; k++) {
