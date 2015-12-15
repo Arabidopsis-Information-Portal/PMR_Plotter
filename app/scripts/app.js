@@ -15,7 +15,10 @@
       // Here, strip away the metadata added by Adama.
       // Another way to do this is with the 'naked data' option in Adama.
       var nakedData = jsondata.obj.result[0];
-      window.HTMLWidgets.staticRender(nakedData);
+      // In case this program were extended to handle multiple data sets,
+      // store the fetched data in a dictionary with lookup by name.
+      var dataContainer = {"htmlwidget-4588" : nakedData};
+      window.HTMLWidgets.staticRender(dataContainer);
       console.log('finish renderViz');
     };
 
@@ -575,8 +578,13 @@ window.HTMLWidgets.staticRender = function(drawingData) {
       // Originally, this program yanked the data from the HTML.
       // var scriptData = document.querySelector('script[data-for="' + el.id + '"][type="application/json"]');
       // var data = JSON.parse(drawingData.textContent || drawingData.text);
+      var data;
       if (drawingData) {
-        var data = drawingData;
+        // Extract one data element from the container.
+        // data = drawingData["htmlwidget-4588"];
+        data = drawingData[el.id];
+      }
+      if (data) {
         // Resolve strings marked as javascript literals to objects
         if (!(data.evals instanceof Array)) {data.evals = [data.evals];}
         for (var k = 0; data.evals && k < data.evals.length; k++) {
