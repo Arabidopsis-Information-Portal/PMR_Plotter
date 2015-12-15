@@ -7,20 +7,29 @@
   /* Use Agave ready event as signal to start drawing */
   window.addEventListener('Agave::ready', function() {
     var Agave = window.Agave;
-    var renderViz = function () {
-      console.log('start renderViz');
+    console.log('Agave ready!');
+
+    var fake={locus: "AT1G65480"};
+    console.log('launch asynchronous data fetch');
+    //        'namespace': 'araport',
+    //        'service': 'gene_ontology_by_locus_v0.2',
+    //        'queryParams': fake
+    Agave.api.adama.search({
+        'namespace': 'pmr',
+        'service': 'pmr_demo_api_v0.1',
+        'queryParams': fake
+    }, renderViz, showErrorMessage);
+    console.log('data fetch invoked, waiting for response');
+
+    var renderViz = function (jsondata) {
+      console.log('data fetched, start renderViz');
       window.HTMLWidgets.staticRender();
       console.log('finish renderViz');
     };
-    var fetchData = function () {
-      console.log('start fetchData');
-      console.log('finish fetchData');
-    };
 
-    console.log('Agave ready');
-    fetchData();
-    renderViz();
-    console.log('Done');
+    function showErrorMessage (response) {
+      console.error('API status: ' + response.obj.status + ' API Message: ' + response.obj.message);
+    }
 });
 
 // Wait until after the document has loaded to render the widgets.
@@ -563,6 +572,7 @@ window.HTMLWidgets.staticRender = function() {
       }
 
       var scriptData = document.querySelector('script[data-for="' + el.id + '"][type="application/json"]');
+
       if (scriptData) {
         var data = JSON.parse(scriptData.textContent || scriptData.text);
         // Resolve strings marked as javascript literals to objects
@@ -671,7 +681,7 @@ window.HTMLWidgets.evaluateStringMember = function(o, member) {
 
 /* STOP HTMLWIDGETS FUNCTIONALITY */
 
-/* START PLOTTY-HTMLWIDGETS BINDING */
+/* START PLOTLY-HTMLWIDGETS BINDING */
 
   window.HTMLWidgets.widget({
     name: 'plotly',
@@ -697,7 +707,7 @@ window.HTMLWidgets.evaluateStringMember = function(o, member) {
       }
     }
 
-    /* STOP PLOTTY-HTMLWIDGETS BINDING */
+    /* STOP PLOTLY-HTMLWIDGETS BINDING */
 
   });
 
