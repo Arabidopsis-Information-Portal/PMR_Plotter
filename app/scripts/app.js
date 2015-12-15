@@ -9,6 +9,16 @@
     var Agave = window.Agave;
     console.log('Agave ready!');
 
+    function renderViz (jsondata) {
+      console.log('data fetched, start renderViz');
+      window.HTMLWidgets.staticRender();
+      console.log('finish renderViz');
+    };
+
+    function showErrorMessage (response) {
+      console.error('API status: ' + response.obj.status + ' API Message: ' + response.obj.message);
+    }
+
     var fake={locus: "AT1G65480"};
     console.log('launch asynchronous data fetch');
     //        'namespace': 'araport',
@@ -21,15 +31,6 @@
     }, renderViz, showErrorMessage);
     console.log('data fetch invoked, waiting for response');
 
-    function renderViz (jsondata) {
-      console.log('data fetched, start renderViz');
-      window.HTMLWidgets.staticRender();
-      console.log('finish renderViz');
-    };
-
-    function showErrorMessage (response) {
-      console.error('API status: ' + response.obj.status + ' API Message: ' + response.obj.message);
-    }
 });
 
 // Wait until after the document has loaded to render the widgets.
