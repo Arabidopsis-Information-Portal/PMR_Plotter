@@ -7,9 +7,20 @@
   /* Use Agave ready event as signal to start drawing */
   window.addEventListener('Agave::ready', function() {
     var Agave = window.Agave;
-    console.log('Agave ready, call staticRender');
-    window.HTMLWidgets.staticRender();
-    console.log('Agave ready, after staticRender');
+    var renderViz = function () {
+      console.log('start renderViz');
+      window.HTMLWidgets.staticRender();
+      console.log('finish renderViz');
+    };
+    var fetchData = function () {
+      console.log('start fetchData');
+      console.log('finish fetchData');
+    };
+
+    console.log('Agave ready');
+    fetchData();
+    renderViz();
+    console.log('Done');
 });
 
 // Wait until after the document has loaded to render the widgets.
@@ -486,10 +497,6 @@ function scheduleStaticRender() {
 // Statically render all elements that are of this widget's class
 window.HTMLWidgets.staticRender = function() {
   var bindings = window.HTMLWidgets.widgets || [];
-
-  console.log('Inside staticRender');
-  console.log('num bindings =' + bindings.length);
-
 
   forEach(bindings, function(binding) {
     var matches = binding.find(document.documentElement);
