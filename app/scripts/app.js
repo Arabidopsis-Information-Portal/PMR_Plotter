@@ -30,7 +30,7 @@
     console.log('launch asynchronous data fetch');
     Agave.api.adama.search({
         'namespace': 'pmr',
-        'service': 'pmr_demo_api_v0.1',
+        'service': 'pmr_demo_api_v0.3',
         'queryParams': fake
     }, renderViz, showErrorMessage);
     console.log('data fetch invoked, waiting for response');
