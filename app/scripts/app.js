@@ -26,11 +26,11 @@
       console.error('API status: ' + response.obj.status + ' API Message: ' + response.obj.message);
     }
 
-    var fake={locus: "AT1G65480"};
+    var fake={'experimentID': '106', 'platformID':'84', 'metaboliteID':'4349'};
     console.log('launch asynchronous data fetch');
     Agave.api.adama.search({
         'namespace': 'pmr',
-        'service': 'pmr_demo_api_v0.3',
+        'service': 'pmr_boxplot_api_v0.4',
         'queryParams': fake
     }, renderViz, showErrorMessage);
     console.log('data fetch invoked, waiting for response');
