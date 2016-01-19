@@ -1,41 +1,155 @@
 /* jshint camelcase: false */
 (function(window, $, undefined) {
-  'use strict';
-  console.log('PMR Box Plot Demo!');
-  var appContext = $('[data-app-name="pmrboxplotapp"]');
+    'use strict';
+    console.log('PMR Box Plot Demo!');
+    var appContext = $('[data-app-name="pmrboxplotapp"]');
 
-  /* Use Agave ready event as signal to start drawing */
-  window.addEventListener('Agave::ready', function() {
-    var Agave = window.Agave;
-    console.log('Agave ready!');
+    /* Use Agave ready event as signal to start drawing */
+    window.addEventListener('Agave::ready', function() {
+        var Agave = window.Agave;
+        console.log('Agave ready!');
 
-    function renderViz (jsondata) {
-      console.log('data fetched, start renderViz');
-      // Adama adds metadata like response time and HTTP status code.
-      // Here, strip away the metadata added by Adama.
-      // Another way to do this is with the 'naked data' option in Adama.
-      var nakedData = jsondata.obj.result[0];
-      // In case this program were extended to handle multiple data sets,
-      // store the fetched data in a dictionary with lookup by name.
-      var dataContainer = {"htmlwidget-4588" : nakedData};
-      window.HTMLWidgets.staticRender(dataContainer);
-      console.log('finish renderViz');
-    };
+        var init = function() {
+            console.log('Starting init...');
+            Agave.api.adama.list({
+                'namespace': 'pmr',
+                'service': 'pmr_experiments_api_v0.4'
+            }, function(search) {
+                var experiments = $.map(search.obj.result[0], function(item) {
+                    return {
+                        label: item.expName,
+                        value: item.expId,
+                    };
+                });
 
-    function showErrorMessage (response) {
-      console.error('API status: ' + response.obj.status + ' API Message: ' + response.obj.message);
-    }
+                // setup dropdown boxes
+                $('#metabolite_selection', appContext).cascadingDropdown({
+                    selectBoxes: [
+                        {
+                            selector: '.step1',
+                            source: experiments,
+                            selected: 0
+                        },
+                        {
+                            selector: '.step2',
+                            requires: ['.step1'],
+                            selected: 0,
+                            source: function(request, response) {
+                                Agave.api.adama.list({
+                                    'namespace': 'pmr',
+                                    'service': 'pmr_platform_api_v0.4',
+                                    'queryParams': request
+                                }, function(search) {
+                                    response($.map(search.obj.result[0], function(item, index) {
+                                        if (index === 0) {
+                                            return {
+                                                label: item.platformName,
+                                                value: item.platformId,
+                                                selected: true
+                                            };
+                                        } else {
+                                            return {
+                                                label: item.platformName,
+                                                value: item.platformId,
+                                            };
+                                        }
+                                    }));
+                                });
+                            }
+                        },
+                        {
+                            selector: '.step3',
+                            requires: ['.step1', '.step2'],
+                            requireAll: true,
+                            selected: 1,
+                            source: function(request, response) {
+                                Agave.api.adama.list({
+                                    'namespace': 'pmr',
+                                    'service': 'pmr_boxplot_api_v0.4',
+                                    'queryParams': request
+                                }, function(search) {
+                                    response($.map(search.obj.result[0], function(item) {
+                                        return {
+                                            label: item.metaboliteName,
+                                            value: item.mId,
+                                        };
+                                    }));
+                                });
+                            }
+                        }
+                    ]
+                });
+            });
+        };
 
-    var fake={'experimentID': '106', 'platformID':'84', 'metaboliteID':'4349'};
-    console.log('launch asynchronous data fetch');
-    Agave.api.adama.search({
-        'namespace': 'pmr',
-        'service': 'pmr_boxplot_api_v0.4',
-        'queryParams': fake
-    }, renderViz, showErrorMessage);
-    console.log('data fetch invoked, waiting for response');
+        var renderViz = function renderViz (jsondata) {
+            $('#progress_region', appContext).addClass('hidden');
+            $('#htmlwidget-4588').removeClass('hidden');
+            console.log('data fetched, start renderViz');
+            // Adama adds metadata like response time and HTTP status code.
+            // Here, strip away the metadata added by Adama.
+            // Another way to do this is with the 'naked data' option in Adama.
+            var nakedData = jsondata.obj.result[0];
+            // In case this program were extended to handle multiple data sets,
+            // store the fetched data in a dictionary with lookup by name.
+            console.log('DATA: ' + JSON.stringify(nakedData));
+            var dataContainer = {'htmlwidget-4588' : nakedData};
+            window.HTMLWidgets.staticRender(dataContainer);
+            console.log('finish renderViz');
+        };
 
-});
+        var errorMessage = function errorMessage(message) {
+            return '<div class="alert alert-danger fade in" role="alert">' +
+                   '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +
+                   '<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span> ' +
+                   message + '</div>';
+        };
+
+        // Displays an error message if the API returns an error
+        var showErrorMessage = function showErrorMessage(response) {
+            // clear progress bar and spinners
+            $('#progress_region', appContext).addClass('hidden');
+            console.error('API Status: ' + response.obj.status + ' API Message: ' + response.obj.message);
+            $('#error', appContext).html(errorMessage('API Error: ' + response.obj.message));
+        };
+
+        init();
+
+        // controls the clear button
+        $('#clearButton', appContext).on('click', function () {
+            // clear the error section
+            $('#error', appContext).empty();
+            // clear the number of result rows from the tabs
+            $('#progress_region', appContext).addClass('hidden');
+            // clear the graph
+            $('#htmlwidget-4588', appContext).addClass('hidden');
+        });
+
+        $('#metabolite_plot', appContext).submit(function (event) {
+            event.preventDefault();
+
+            // Reset error div
+            $('#error', appContext).empty();
+
+            $('#htmlwidget-4588', appContext).addClass('hidden');
+
+            var query = {
+                'experimentID': this.experimentID.value,
+                'platformID': this.platformID.value,
+                'metaboliteID': this.metaboliteID.value
+            };
+
+            // start progress bar
+            $('#progress_region', appContext).removeClass('hidden');
+            console.log('launch asynchronous data fetch');
+            Agave.api.adama.search({
+                'namespace': 'pmr',
+                'service': 'pmr_boxplot_api_v0.4',
+                'queryParams': query
+            }, renderViz, showErrorMessage);
+            console.log('data fetch invoked, waiting for response');
+        });
+    });
 
 // Wait until after the document has loaded to render the widgets.
 //if (document.addEventListener) {
@@ -511,9 +625,11 @@ function scheduleStaticRender() {
 // Statically render all elements that are of this widget's class
 window.HTMLWidgets.staticRender = function(drawingData) {
   var bindings = window.HTMLWidgets.widgets || [];
+  console.log('BINDINGS: ' + JSON.stringify(bindings));
 
   forEach(bindings, function(binding) {
     var matches = binding.find(document.documentElement);
+    console.log('MATCHES: ' + JSON.stringify(matches));
     forEach(matches, function(el) {
       var sizeObj = initSizing(el, binding);
 

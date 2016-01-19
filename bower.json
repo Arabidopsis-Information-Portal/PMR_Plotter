@@ -2,6 +2,7 @@
   "name": "pmrboxplotapp",
   "private": true,
   "dependencies": {
-    "plotlyjs": "plotly#~0.0.2"
+    "plotlyjs": "plotly#~0.0.2",
+    "jquery-cascading-dropdown": "~1.2.6"
   }
 }
