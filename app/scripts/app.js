@@ -83,6 +83,34 @@
             });
         };
 
+        var errorMessage = function errorMessage(message) {
+            return '<div class="alert alert-danger fade in" role="alert">' +
+                   '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +
+                   '<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span> ' +
+                   message + '</div>';
+        };
+
+        var warningMessage = function warningMessage(message) {
+            return '<div class="alert alert-warning fade in" role="alert">' +
+                   '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +
+                   '<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span><span class="sr-only">Warning:</span> ' +
+                   message + '</div>';
+        };
+
+        // Displays an error message if the API returns an error
+        var showErrorMessage = function showErrorMessage(response) {
+            // clear progress bar and spinners
+            $('#progress_region', appContext).addClass('hidden');
+            var message = '';
+            var status = '';
+            if (response && response.obj) {
+                message = response.obj.message;
+                status = response.obj.status;
+            }
+            console.error('API Status: ' + status + ' API Message: ' + message);
+            $('#error', appContext).html(errorMessage('Trouble interacting with the server [' + message + ']! Please try again later.'));
+        };
+
         var renderViz = function renderViz (jsondata) {
             $('#progress_region', appContext).addClass('hidden');
             console.log('data fetched, start renderViz');
@@ -105,28 +133,6 @@
             console.log('finish renderViz');
         };
 
-        var errorMessage = function errorMessage(message) {
-            return '<div class="alert alert-danger fade in" role="alert">' +
-                   '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +
-                   '<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span> ' +
-                   message + '</div>';
-        };
-
-        var warningMessage = function warningMessage(message) {
-            return '<div class="alert alert-warning fade in" role="alert">' +
-                   '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +
-                   '<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span><span class="sr-only">Warning:</span> ' +
-                   message + '</div>';
-        };
-
-        // Displays an error message if the API returns an error
-        var showErrorMessage = function showErrorMessage(response) {
-            // clear progress bar and spinners
-            $('#progress_region', appContext).addClass('hidden');
-            console.error('API Status: ' + response.obj.status + ' API Message: ' + response.obj.message);
-            $('#error', appContext).html(errorMessage('API Error: ' + response.obj.message));
-        };
-
         init();
 
         // controls the clear button
@@ -138,6 +144,7 @@
             // clear the graph
             $('#boxplot', appContext).addClass('hidden');
             $('#boxplot', appContext).empty();
+            $('a[href="#about"]', appContext).tab('show');
         });
 
         $('#metabolite_plot', appContext).submit(function (event) {
@@ -145,6 +152,8 @@
 
             // Reset error div
             $('#error', appContext).empty();
+
+            $('a[href="#plot"]', appContext).tab('show');
 
             $('#boxplot', appContext).addClass('hidden');
             $('#boxplot', appContext).empty();

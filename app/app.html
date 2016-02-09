@@ -29,17 +29,43 @@
     <br><br><br>
 
     <div id="error"></div>
-     <div id="progress_region" class="hidden">
+    <div id="progress_region" class="hidden">
         <h4>Searching...</h4>
         <div class="progress progress-striped active">
             <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
                 <span class="sr-only">Loading Data</span>
             </div>
         </div>
-     </div>
+    </div>
 
-    <div id="plot_container">
-        <div id="boxplot" style="width:1060px;height:600px;" class="plotly hidden"></div>
+    <br>
+
+    <!-- Navigation tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li id="about-tab" class="active"><a href="#about" aria-controls="about" role="tab" data-toggle="tab">About</a></li>
+        <li id="plot-tab"><a href="#plot" aria-controls="plot" role="tab" data-toggle="tab">Plot</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+
+        <!-- About tab -->
+        <div role="tabpanel" class="tab-pane fade in active" id="about">
+            <a href="http://metnetdb.org/PMR/" target="_blank"><img src="http://metnetdb.org/pmr/images/pmr.png" id="logo" alt="PMR Logo" width="1000" height="120"></a>
+
+            <p>A public database for metabolomics data from plants and eukaryotic microorganisms.</p>
+
+            <p>Community Resource by <a href="http://www.public.iastate.edu/~nikolau/cmb/index.shtml" target="_blank">Center for Metabolic Biology (CMB) <i class="fa fa-external-link"></i></a> and <a href="http://www.gdcb.iastate.edu/" target="_blank">Department of Genetics Development and Cell Biology <i class="fa fa-external-link"></i></a>, Iowa State University.</p>
+
+            <p>Publication: <a href="http://pubs.rsc.org/en/Content/ArticleLanding/2013/NP/C3NP20111B" target="_blank">Manhoi Hur, Alexis Ann Campbell, Marcia Almeida-de-Macedo, Ling Li, Nick Ransom, Adarsh Jose, Matt Crispin, Basil J. Nikolauh and Eve Syrkin Wurtele 2013. A global approach to analysis and interpretation of metabolic data for plant natural product discovery.Natural Product Reports. DOI:10.1039/C3NP20111B <i class="fa fa-external-link"></i></a></p>
+        </div>
+
+        <div id="plot" class="tab-pane fade in">
+            <div id="plot_container">
+                <div id="boxplot" style="width:1060px;height:600px;" class="plotly hidden"></div>
+            </div>
+        </div>
+
     </div>
 
     <br>
