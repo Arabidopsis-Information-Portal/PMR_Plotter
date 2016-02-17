@@ -4,6 +4,7 @@
     'use strict';
     console.log('PMR Box Plot Demo!');
     var appContext = $('[data-app-name="pmrboxplotapp"]');
+    var empty_boxplot_text = '<blockquote>Click the \'Plot\' button above to generate a box plot.</blockquote>';
 
     /* Use Agave ready event as signal to start drawing */
     window.addEventListener('Agave::ready', function() {
@@ -142,8 +143,7 @@
             // clear the number of result rows from the tabs
             $('#progress_region', appContext).addClass('hidden');
             // clear the graph
-            $('#boxplot', appContext).addClass('hidden');
-            $('#boxplot', appContext).empty();
+            $('#boxplot', appContext).html(empty_boxplot_text);
             $('a[href="#about"]', appContext).tab('show');
         });
 
@@ -155,8 +155,7 @@
 
             $('a[href="#plot"]', appContext).tab('show');
 
-            $('#boxplot', appContext).addClass('hidden');
-            $('#boxplot', appContext).empty();
+            $('#boxplot', appContext).html(empty_boxplot_text);
 
             var query = {
                 'experimentID': this.experimentID.value,

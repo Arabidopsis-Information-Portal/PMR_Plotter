@@ -42,8 +42,9 @@
 
     <!-- Navigation tabs -->
     <ul class="nav nav-tabs" role="tablist">
-        <li id="about-tab" class="active"><a href="#about" aria-controls="about" role="tab" data-toggle="tab">About</a></li>
-        <li id="plot-tab"><a href="#plot" aria-controls="plot" role="tab" data-toggle="tab">Plot</a></li>
+        <li id="about-tab" class="active"><a href="#about" aria-controls="about" role="tab" data-toggle="tab">About PMR</a></li>
+        <li id="plot-tab"><a href="#plot" aria-controls="plot" role="tab" data-toggle="tab">Box Plot</a></li>
+        <li id="vplot-tab"><a href="#vplot" aria-controls="vplot" role="tab" data-toggle="tab">Volcano Plot</a></li>
     </ul>
 
     <!-- Tab panes -->
@@ -62,7 +63,13 @@
 
         <div id="plot" class="tab-pane fade in">
             <div id="plot_container">
-                <div id="boxplot" style="width:1060px;height:600px;" class="plotly hidden"></div>
+                <div id="boxplot" style="width:1060px;height:600px;" class="plotly"><blockquote>Click the 'Plot' button above to generate a box plot.</blockquote></div>
+            </div>
+        </div>
+
+        <div id="vplot" class="tab-pane fade in">
+            <div id="vplot_container">
+                <div id="volcanoplot" style="width:1060px;height:600px;" class="plotly"><blockquote>Coming Soon</blockquote></div>
             </div>
         </div>
 
