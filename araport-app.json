@@ -8,5 +8,8 @@
   ],
   "styles": [
     "styles/app.css"
+  ],
+  "assets": [
+      "assets/about.yml"
   ]
 }

@@ -1,10 +1,30 @@
 /* jshint camelcase: false */
-/* global Plotly */
-(function(window, $, Plotly, undefined) {
+/* global Plotly, jsyaml, _ */
+(function(window, $, Plotly, jsyaml, _, undefined) {
     'use strict';
     console.log('PMR Box Plot Demo!');
     var appContext = $('[data-app-name="pmrboxplotapp"]');
     var empty_boxplot_text = '<blockquote>Click the \'Plot\' button above to generate a box plot.</blockquote>';
+    var config;
+
+    var templates = {
+        footer: _.template('<div class="col-sm-12"><%= footer %></div>'),
+        logo: _.template('<a href="<%= url %>" target="_blank"><img src="<%= logo %>" alt="PMR Logo" width="1000" height="120"></a>'),
+        body: _.template('<div><%= body %></div>')
+    };
+
+    var renderAbout = function renderAbout(json) {
+        console.log('Rendering about...');
+        $('#logo', appContext).html(templates.logo(json));
+        $('#body', appContext).html(templates.body(json));
+        $('#footer', appContext).html(templates.footer(json));
+    };
+
+    // load yaml file
+    $.get('app/assets/about.yml', function (data) {
+        config = jsyaml.safeLoad(data);
+        renderAbout(config);
+    }, 'text');
 
     /* Use Agave ready event as signal to start drawing */
     window.addEventListener('Agave::ready', function() {
@@ -13,6 +33,7 @@
 
         var init = function() {
             console.log('Starting init...');
+
             Agave.api.adama.list({
                 'namespace': 'pmr',
                 'service': 'pmr_experiments_api_v0.4'
@@ -174,4 +195,4 @@
             console.log('data fetch invoked, waiting for response');
         });
     });
-})(window, jQuery, Plotly);
+})(window, jQuery, Plotly, jsyaml, _);

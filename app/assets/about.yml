@@ -1,0 +1,15 @@
+---
+
+logo: http://metnetdb.org/pmr/images/pmr.png
+url: http://metnetdb.org/PMR/
+footer: |
+    <p>
+        Data &amp; web services provided by
+        <a href="http://metnetdb.org/PMR/" target="_blank">PMR <i class="fa fa-external-link"></i></a>.
+    </p>
+body: |
+    <p>A public database for metabolomics data from plants and eukaryotic microorganisms.</p>
+
+    <p>Community Resource by <a href="http://www.public.iastate.edu/~nikolau/cmb/index.shtml" target="_blank">Center for Metabolic Biology (CMB) <i class="fa fa-external-link"></i></a> and <a href="http://www.gdcb.iastate.edu/" target="_blank">Department of Genetics Development and Cell Biology <i class="fa fa-external-link"></i></a>, Iowa State University.</p>
+
+    <p>Publication: <a href="http://pubs.rsc.org/en/Content/ArticleLanding/2013/NP/C3NP20111B" target="_blank">Manhoi Hur, Alexis Ann Campbell, Marcia Almeida-de-Macedo, Ling Li, Nick Ransom, Adarsh Jose, Matt Crispin, Basil J. Nikolauh and Eve Syrkin Wurtele 2013. A global approach to analysis and interpretation of metabolic data for plant natural product discovery.Natural Product Reports. DOI:10.1039/C3NP20111B <i class="fa fa-external-link"></i></a></p>
