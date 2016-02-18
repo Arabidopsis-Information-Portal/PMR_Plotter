@@ -3,3 +3,10 @@
   padding: 0;
   position: relative;
 }
+
+hr {
+    display: block;
+    margin: 1em;
+    border-style: inset;
+    border-width: 1px;
+}

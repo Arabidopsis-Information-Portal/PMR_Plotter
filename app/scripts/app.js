@@ -142,6 +142,7 @@
             var result = jsondata.obj.result[0];
             console.log('DATA: ' + JSON.stringify(result));
             if (result.x) {
+                $('#boxplot').empty();
                 $('#boxplot').removeClass('hidden');
                 var plotData = result.x;
                 Plotly.newPlot('boxplot', plotData.data, plotData.layout, plotData.config);
