@@ -10,6 +10,8 @@ module.exports = function(grunt) {
     dist: 'dist'
   };
 
+  grunt.loadNpmTasks('grunt-yamllint');
+
   // Project configuration.
   grunt.initConfig({
     // Task configuration.
@@ -34,6 +36,13 @@ module.exports = function(grunt) {
       jstest: {
         files: ['test/spec/{,*/}*.js'],
         tasks: ['test:watch']
+      },
+      yaml: {
+        files: ['<%= config.app %>/assets/**/*.yml'],
+        tasks: ['yamllint'],
+        options: {
+          livereload: true
+        }
       },
       livereload: {
         files: [
@@ -177,6 +186,13 @@ module.exports = function(grunt) {
           tag: ''
         },
       }
+    },
+
+    yamllint: {
+      options: {
+        schema: 'DEFAULT_SAFE_SCHEMA'
+      },
+      all: ['<%= config.app %>/assets/**/*.yml']
     }
   });
 
@@ -306,6 +322,7 @@ module.exports = function(grunt) {
       return grunt.task.run([
         'clean:server',
         'jshint',
+        'yamllint:all',
         'checkdeps',
         'araport-wiredep',
         'wiredep',
@@ -318,6 +335,7 @@ module.exports = function(grunt) {
     grunt.task.run([
       'clean:server',
       'jshint',
+      'yamllint:all',
       'checkdeps',
       'araport-wiredep',
       'wiredep',
@@ -336,12 +354,14 @@ module.exports = function(grunt) {
   grunt.registerTask('default', 'serve');
 
   grunt.registerTask('test', [
-    'jshint'
+    'jshint',
+    'yamllint:all'
   ]);
 
   grunt.registerTask('dist', [
     'clean:dist',
     'jshint',
+    'yamllint:all',
     'checkdeps',
     'araport-wiredep',
     'wiredep',
