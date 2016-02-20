@@ -8,7 +8,7 @@ footer: |
         <a href="http://metnetdb.org/PMR/" target="_blank">PMR <i class="fa fa-external-link"></i></a>.
     </p>
 body: |
-    <p>This application draws a boxplot containing data obtained from the PMR using web services. Given a metabolite chosen based on experiment and platform, the boxplot displays the relative abundance of the metabolie across all of the samples defined in the experiment.</p>
+    <p>This application draws a boxplot containing data obtained from the PMR using web services. Given a metabolite chosen based on experiment and platform, the boxplot displays the relative abundance of the metabolie across all of the samples used in the experiment.</p>
 
     <hr>
 
@@ -25,6 +25,14 @@ body: |
     </ul>
     </p>
 
+    <p>The PMR is funded by <a href="http://www.nsf.gov/awardsearch/showAward?AWD_ID=0951170" target="_blank">National Science Foundation (MCB0951170) <i class="fa fa-external-link"></i></a>,
+    <a href="http://projectreporter.nih.gov/project_info_description.cfm?aid=7854387&amp;icde=19388707&amp;ddparam=&amp;ddvalue=&amp;ddsub=&amp;cr=6&amp;csb=default&amp;cs=ASC" target>National Institute Of General Medical Sciences (RC2GM092521) <i class="fa fa-external-link"></i></a>,
+    and <a href="http://http://www.cbirc.iastate.edu/" target="_blank">NSF Engineering Research Center for Biorenewable Chemicals (CBiRC) <i class="fa fa-external-link"></i></a>.
+    </p>
+
     <hr>
 
-    <p><a href="https://www.araport.org/community-contributors#PMR" target="_blank">Contributors <i class="fa fa-external-link"></i></a></p>
+    <p><a href="https://www.araport.org/community-contributors#PMR" target="_blank">PMR Contributors <i class="fa fa-external-link"></i></a></p>
+
+boxplot_caption: |
+    <p>This box plot shows the relative abundance of the selected metabolite across various replicates and across various biological samples or tissue types.</p>

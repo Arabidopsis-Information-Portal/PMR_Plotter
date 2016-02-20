@@ -10,12 +10,13 @@
     var templates = {
         footer: _.template('<div class="col-sm-12"><%= footer %></div>'),
         logo: _.template('<a href="<%= url %>" target="_blank"><img src="<%= logo %>" alt="PMR Logo" width="1000" height="120"></a>'),
-        body: _.template('<div><%= body %></div>')
+        body: _.template('<div><%= body %></div>'),
+        boxplot_caption: _.template('<small><em><%= boxplot_caption %></em></small>')
     };
 
     var renderAbout = function renderAbout(json) {
         console.log('Rendering about...');
-        $('#logo', appContext).html(templates.logo(json));
+        $('.logo', appContext).html(templates.logo(json));
         $('#body', appContext).html(templates.body(json));
         $('#footer', appContext).html(templates.footer(json));
     };
@@ -97,12 +98,29 @@
                                             value: item.mId,
                                         };
                                     }));
+                                    $('#metaboliteID', appContext).change();
                                 });
                             }
                         }
                     ]
                 });
             });
+        };
+
+        var verifyFormSelections = function verifyFormSelections() {
+            var allSelected = false;
+            if ($('#experimentID', appContext).val() && $('#platformID', appContext).val() && $('#metaboliteID', appContext).val()) {
+                allSelected = true;
+            }
+            return allSelected;
+        };
+
+        var updateFormEnabled = function updateFormEnabled() {
+            if (verifyFormSelections()) {
+                $('#plotButton', appContext).prop('disabled', false);
+            } else {
+                $('#plotButton', appContext).prop('disabled', true);
+            }
         };
 
         var errorMessage = function errorMessage(message) {
@@ -133,9 +151,9 @@
             $('#error', appContext).html(errorMessage('Trouble interacting with the server [' + message + ']! Please try again later.'));
         };
 
-        var renderViz = function renderViz (jsondata) {
+        var renderBoxplot = function renderBoxplot (jsondata) {
             $('#progress_region', appContext).addClass('hidden');
-            console.log('data fetched, start renderViz');
+            console.log('data fetched, start renderBoxplot');
             // Adama adds metadata like response time and HTTP status code.
             // Here, strip away the metadata added by Adama.
             // Another way to do this is with the 'naked data' option in Adama.
@@ -146,6 +164,7 @@
                 $('#boxplot').removeClass('hidden');
                 var plotData = result.x;
                 Plotly.newPlot('boxplot', plotData.data, plotData.layout, plotData.config);
+                $('#boxplot', appContext).append('<div>' + templates.boxplot_caption(config) + '</div>');
             } else {
                 var search_experiment = $('#experimentID option:selected', appContext).text();
                 var search_platform = $('#platformID option:selected', appContext).text();
@@ -153,10 +172,15 @@
                 var selected_data = 'Experiment: \'' + search_experiment + '\', Platform: \'' + search_platform + '\', and Metabolite: \'' + search_metabolite + '\'';
                 $('#error', appContext).html(warningMessage('No plot data found for ' + selected_data + '. Please try again.'));
             }
-            console.log('finish renderViz');
+            console.log('finish renderBoxplot');
         };
 
         init();
+
+        // controls whether plot button is enabled
+        $('#experimentID', appContext).on('change', updateFormEnabled);
+        $('#platformID', appContext).on('change', updateFormEnabled);
+        $('#metaboliteID', appContext).on('change', updateFormEnabled);
 
         // controls the clear button
         $('#clearButton', appContext).on('click', function () {
@@ -192,7 +216,7 @@
                 'namespace': 'pmr',
                 'service': 'pmr_boxplot_api_v0.4',
                 'queryParams': query
-            }, renderViz, showErrorMessage);
+            }, renderBoxplot, showErrorMessage);
             console.log('data fetch invoked, waiting for response');
         });
     });

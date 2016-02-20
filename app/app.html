@@ -20,7 +20,7 @@
             </div>
             <br>
             <div class="form-group col-md-3">
-                <button type="submit" id="plotButton" class="btn btn-success">Plot</button>
+                <button type="submit" id="plotButton" class="btn btn-success" disabled>Plot</button>
                 <button type="button" id="clearButton" class="btn btn-danger">Clear</button>
             </div>
         </form>
@@ -52,18 +52,20 @@
 
         <!-- About tab -->
         <div role="tabpanel" class="tab-pane fade in active" id="about">
-            <div id="logo"></div>
+            <div class="logo"></div>
             <div id="body"></div>
         </div>
 
         <div id="plot" class="tab-pane fade in">
             <div id="plot_container">
+                <div class="logo"></div>
                 <div id="boxplot" style="width:1060px;height:600px;" class="plotly"><blockquote>Click the 'Plot' button above to generate a box plot.</blockquote></div>
             </div>
         </div>
 
         <div id="vplot" class="tab-pane fade in">
             <div id="vplot_container">
+                <div class="logo"></div>
                 <div id="volcanoplot" style="width:1060px;height:600px;" class="plotly"><blockquote>Coming Soon</blockquote></div>
             </div>
         </div>
