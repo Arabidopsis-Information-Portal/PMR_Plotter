@@ -8,7 +8,7 @@ footer: |
         <a href="http://metnetdb.org/PMR/" target="_blank">PMR <i class="fa fa-external-link"></i></a>.
     </p>
 body: |
-    <p>This application draws a boxplot containing data obtained from the PMR using web services. Given a metabolite chosen based on experiment and platform, the boxplot displays the relative abundance of the metabolie across all of the samples used in the experiment.</p>
+    <p>This application draws a box plot containing data obtained from the PMR using web services. Given a metabolite chosen based on experiment and platform, the box plot displays the relative abundance of the metabolie across various replicates and across various biological samples or tissue types.</p>
 
     <hr>
 
