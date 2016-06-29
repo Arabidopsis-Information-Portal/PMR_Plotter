@@ -1,7 +1,7 @@
 {
-  "icon": "",
-  "name": "pmrboxplotapp",
-  "description": "Draw plots as described by PMR web services",
+  "namespace" : "pmrboxplotapp",
+  "name": "PMR Plotter",
+  "description": "Draw plots based on metabolomics of knock-outs as described by PMR web services.",
   "html": "app.html",
   "scripts": [
     "scripts/app.js"
@@ -10,6 +10,10 @@
     "styles/app.css"
   ],
   "assets": [
-      "assets/about.yml"
-  ]
+    "assets/about.yml"
+  ],
+  "tags": [
+    "arabidopsis", "PMR", "metabolomics", "gene"
+  ],
+  "icon": "app/images/logo.png"
 }
